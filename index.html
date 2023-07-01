@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+    <head>
+        <title>Pattern Printer</title>
+
+        <meta name = "Priyanshu" content = "W3docs">
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: 'Poppins', sans-serif;
+            }
+
+            body {
+                background: #fafafa;
+            }
+
+            header {
+                display: flex;
+                justify-content: start;
+
+                padding: 20px 10%;
+                background: #fff;
+                box-shadow: 0 2px 10px 0 #1515151f;
+            }
+
+            h2 {
+                color: #1e2f97;
+                cursor: pointer;
+            }
+
+            main {
+                height: 92vh;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #AppContainer {
+                height: 50vh;
+                min-width: 30vw;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            #Warning {
+                margin-bottom: 20px;
+                font-family: 'PT Mono', monospace;
+                color: rgb(228, 0, 0);
+            }
+
+            #DisplayContainer {
+                background: #151515;
+
+                min-width: 30vw;
+                min-height: 30vh;
+                padding: 20px 20px;
+
+                border-radius: 20px;
+                box-shadow: 0 0 10px 0 #15151571;
+            }
+
+            p {
+                font-family: 'PT Mono', monospace;
+                color: #fff;
+            }
+
+            #FormContainer {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .InputContainer {
+                min-width: 25vw;
+                display: flex;
+                flex-direction: column;
+                padding: 5px 0;
+            }
+
+            label {
+                padding: 0 10px;
+                font-size: 14px;
+            }
+
+            .TextInput {
+                height: 40px;
+                padding: 0 10px;
+
+                border: 1px solid gray;
+                border-radius: 10px;
+            }
+
+            select, option {cursor: pointer;}
+
+            #ButtonContainer {
+                min-width: 25vw;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            button {
+                padding: 2px 10px;
+                background: #1e2f97;
+                border: none;
+                border-radius: 100px;
+                color: #fff;
+                letter-spacing: .5px;
+                transition: background 0.2s ease-in-out;
+                cursor: pointer;
+            }
+
+            button:hover {
+                padding: 2px 10px;
+                background: #131e61;
+                border: none;
+                border-radius: 100px;
+                color: #fff;
+                letter-spacing: .5px;
+            }
+        </style>
+
+        <script>
+            function SquarePattern(Rows) {
+                var printf = "";
+                
+                for (var i = 1; i <= Rows; i++) {
+                    for (var j = 1; j <= Rows; j++) {
+                        printf += "*&nbsp;";
+                    }
+
+                    printf += "<br>";
+                }
+
+                document.getElementById("Display").innerHTML = printf;
+            }
+
+            function TrianglePattern(Rows) {
+                var printf = "";
+                
+                for (var i = 1; i <= Rows; i++) {
+                    for (var j = 1; j <= i; j++) {
+                        printf += "*&nbsp;";
+                    }
+
+                    printf += "<br>";
+                }
+
+                document.getElementById("Display").innerHTML = printf;
+            }
+
+            function DaimondPattern(Rows) {
+                var MidPoint = (Rows + 1)/2;
+                var LeftMargin = MidPoint;
+                var RightMargin = MidPoint;
+                var printf = "";
+                
+                for (var i = 1; i <= Rows; i++) {
+                    for (var j = 1; j <= Rows; j++) {
+                        if (j >= LeftMargin && j <= RightMargin) {
+                            printf += "*&nbsp;";
+                        } else {
+                            printf += "&nbsp;&nbsp;";
+                        }
+                    }
+
+                    printf += "<br>";
+
+                    if (i < MidPoint) {
+                        LeftMargin--;
+                        RightMargin++;
+                    } else {
+                        LeftMargin++;
+                        RightMargin--;
+                    }
+                }
+
+                document.getElementById("Display").innerHTML = printf;
+            }
+
+            function GeneratePattern() {
+                var Rows = parseInt(document.getElementById("Rows").value);
+                var Case = document.getElementById("PatternSelector").value;
+
+                if (Rows == 0) {
+                    document.getElementById("Display").innerHTML = "Kindly enter number of rows.....";
+                } else if (Case == 0){
+                    document.getElementById("Display").innerHTML = "Kindly Select the pattern.....";
+                } else {
+                    document.getElementById("Warning").hidden = false;
+
+                    if (Case == 1) {
+                        SquarePattern(Rows);
+                    } else if (Case == 2) {
+                        TrianglePattern(Rows);
+                    } else if (Case == 3) {
+                        DaimondPattern(Rows);
+                    }
+                }
+            }
+
+            function Reset() {
+                document.getElementById("Warning").hidden = true;
+                document.getElementById("Display").innerHTML = "Generate Another Pattern.....";
+                document.getElementById("Rows").value = 0;
+                document.getElementById("PatternSelector").value = 0;
+            }
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <h2>Pattern Printer</h2>
+        </header>
+
+        <main>
+            <div id = "AppContainer">
+                <label id = "Warning" hidden>This Pattern is Generated using a monospace font. Results may vary on different fonts.</label>
+
+                <div id = "DisplayContainer">
+                    <p id = "Display">Pattern Will Generate Here.....</p>
+                </div>
+
+                <div id = "FormContainer">
+                    <div class = "InputContainer">
+                        <label for = "Rows">Enter the Number of Rows</label>
+                        <input class = "TextInput" type = "number" id = "Rows" value = "0">
+                    </div>
+                    
+                    <div class = "InputContainer">
+                        <label for = "PatternSelector">Select Patter</label>
+                        <select id = "PatternSelector" class = "TextInput">
+                            <option value = "0">Kindly Select</option>
+                            <option value = "1">Square</option>
+                            <option value = "2">Triangle</option>
+                            <option value = "3">Daimond</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id = "ButtonContainer">
+                    <button onclick = "GeneratePattern()">💻 Generate</button>
+                    <button onclick = "Reset()">📄 Clear</button>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
